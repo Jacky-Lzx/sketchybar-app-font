@@ -29,9 +29,15 @@ export function install(replaceInScriptPath, refreshSketchybar = true) {
       scriptContents.slice(endMarkerIndex + endMarker.length);
     fs.writeFileSync(pathToScript, newScriptContents, "utf8");
   } else {
+
+    const destinationDir = `${process.env.HOME}/.config/sketchybar/helpers`;
+
+    if (!fs.existsSync(destinationDir)) {
+      fs.mkdirSync(destinationDir, { recursive: true });
+    }
     fs.copyFileSync(
-      "./dist/icon_map.sh",
-      `${process.env.HOME}/.config/sketchybar/icon_map.sh`
+      "./dist/icon_map.lua",
+      path.join(destinationDir, "icon_map.lua")
     );
   }
 
